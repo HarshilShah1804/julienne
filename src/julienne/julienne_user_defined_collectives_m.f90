@@ -21,4 +21,19 @@ module julienne_user_defined_collectives_m
 
   end interface
 
+
+contains
+
+  module procedure co_all
+#if HAVE_MULTI_IMAGE_SUPPORT
+    call co_reduce(boolean, both)
+#endif
+  contains
+    pure function both(lhs,rhs) result(lhs_and_rhs)
+      logical, intent(in) :: lhs,rhs
+      logical lhs_and_rhs
+      lhs_and_rhs = lhs .and. rhs
+    end function
+  end procedure
+
 end module julienne_user_defined_collectives_m
