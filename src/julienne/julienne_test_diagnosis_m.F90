@@ -8,7 +8,7 @@ module julienne_test_diagnosis_m
   !! Define abstractions, defined operations, and procedures for writing correctness checks in
   !! the form of assertions and tests.
   use assert_m
-  use julienne_string_m, only : operator(.csv.), operator(.cat.)
+  use julienne_string_m, only : operator(.comma.), operator(.cat.)
   use julienne_string_m, only : string_t
   implicit none
 

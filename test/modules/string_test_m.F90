@@ -18,7 +18,7 @@ module string_test_m
     ,diagnosis_function_i &
 #endif
     ,operator(.cat.) &
-    ,operator(.csv.) &
+    ,operator(.comma.) &
     ,operator(.sv.)
 
   implicit none

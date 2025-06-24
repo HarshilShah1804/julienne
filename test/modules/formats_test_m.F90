@@ -7,7 +7,7 @@ module formats_test_m
   !! Verify that format strings provide the desired formatting
   use julienne_m, only : &
     separated_values &
-   ,operator(.csv.) &
+   ,operator(.comma.) &
    ,string_t &
    ,test_description_t &
    ,test_description_substring &

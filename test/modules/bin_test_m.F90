@@ -7,7 +7,7 @@ module bin_test_m
   !! Check data partitioning across bins
   use julienne_m, only : &
      bin_t &
-    ,operator(.csv.) &
+    ,operator(.comma.) &
     ,string_t &
     ,test_description_t &
     ,test_description_substring &

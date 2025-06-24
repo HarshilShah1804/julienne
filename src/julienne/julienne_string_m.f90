@@ -10,7 +10,7 @@ module julienne_string_m
   public :: string_t
   public :: array_of_strings ! construct 1D string_t array from a string containing delimited substrings
   public :: operator(.cat.)  ! element-wise concatenation unary operator
-  public :: operator(.csv.)  ! comma-separated values unary operator
+  public :: operator(.comma.)  ! comma-separated values unary operator
   public :: operator(.separatedBy.), operator(.sv.)   ! separated-values binary operator
 
   integer, parameter :: integer_width_supremum = 11, default_real_width_supremum = 20, double_precision_width_supremum = 25
@@ -121,7 +121,7 @@ module julienne_string_m
 
   end interface
 
-  interface operator(.csv.)
+  interface operator(.comma.)
 
     pure module function strings_with_comma_separator(strings) result(csv)
       implicit none

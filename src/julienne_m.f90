@@ -27,7 +27,7 @@ module julienne_m
      string_t &
     ,array_of_strings &
     ,operator(.cat.) &
-    ,operator(.csv.) &
+    ,operator(.comma.) &
     ,operator(.separatedBy.) &
     ,operator(.sv.)
   use julienne_test_m, only : test_t, test_description_substring
