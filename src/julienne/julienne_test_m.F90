@@ -16,7 +16,7 @@ module julienne_test_m
   private
   public :: test_t, test_description_substring
 
-  character(len=:), allocatable, protected :: test_description_substring
+  character(len=:), allocatable :: test_description_substring
 
   type, abstract :: test_t
     !! Facilitate testing and test reporting
