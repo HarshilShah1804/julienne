@@ -54,8 +54,6 @@ module julienne_test_m
 
 contains
 
-contains
-
   module procedure report
 
 #if HAVE_MULTI_IMAGE_SUPPORT
