@@ -8,7 +8,7 @@ program get_command_line_flag_value
   !!
   !! Running the above command either without `bar` or without "--foo bar" should print an indication the message "flag '--foo' not present or present with no value".
   !! was provided.
-  use julienne_m, only : command_line_t
+  use julienne_command_line_m, only : command_line_t
   implicit none
 
   type(command_line_t) command_line
