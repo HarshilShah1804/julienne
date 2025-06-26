@@ -13,31 +13,12 @@ module julienne_command_line_m
     procedure, nopass :: flag_value
   end type
 
-  interface
-
-    module function argument_present(acceptable_argument) result(found)
-      implicit none
-      !! result is .true. only if a command-line argument matches an element of this function's argument
-      character(len=*), intent(in) :: acceptable_argument(:)
-        !! sample list: [character(len=len(<longest_argument>)):: "--benchmark", "-b", "/benchmark", "/b"]
-        !! where dashes support Linux/macOS, slashes support Windows, and <longest_argument> must be replaced
-        !! by the longest list element ("--benchmark" above)
-      logical found
-    end function
-
-    module function flag_value(flag)
-      !! result = { the value passed immediately after a command-line flag if the flag is present or
-      !!          { an empty string otherwise.
-      implicit none
-      character(len=*), intent(in) :: flag
-      character(len=:), allocatable :: flag_value
-    end function
-
-  end interface
-
 contains
 
-  module procedure argument_present
+  module function argument_present(acceptable_argument) result(found)
+    implicit none
+    character(len=*), intent(in) :: acceptable_argument(:)
+    logical found
       !! list of acceptable arguments
       !! sample list: [character(len=len(longest_argument)):: "--benchmark", "-b", "/benchmark", "/b"]
       !! where dashes support Linux/macOS and slashes support Windows
@@ -67,9 +48,12 @@ contains
 
     end associate
 
-  end procedure
+  end function
 
-  module procedure flag_value
+  module function flag_value(flag)
+    implicit none
+    character(len=*), intent(in) :: flag
+    character(len=:), allocatable :: flag_value
     integer argnum, arglen, flag_value_length
     character(len=:), allocatable :: arg
 
@@ -86,7 +70,7 @@ contains
       deallocate(arg)
     end do
     flag_value=""
-  end procedure
+  end function
 
 
 end module
