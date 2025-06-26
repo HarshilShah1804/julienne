@@ -5,7 +5,7 @@
 
 program assertions
   !! Example: two true assertions followed by one intentionally false assertion
-  use julienne_m, only : &
+  use julienne_test_diagnosis_m, only : &
      call_julienne_assert_ &
     ,operator(.approximates.) &
     ,operator(.equalsExpected.) &
