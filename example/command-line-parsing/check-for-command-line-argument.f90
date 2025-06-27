@@ -11,14 +11,14 @@ program check_for_command_line_argument
   !! should print an indication that the argument is not present:
   !!
   !!   fpm run --example check-for-command-line-argument
-  use julienne_m, only : command_line_t
-  implicit none
+!   use julienne_command_line_m, only : command_line_t
+!   implicit none
 
-  type(command_line_t) command_line
+!   type(command_line_t) command_line
 
-  if (command_line%argument_present(["--some-argument"])) then
-     print '(a)', new_line('') // "argument 'some-argument' present" // new_line('')
-  else
-     print '(a)', new_line('') // "argument 'some-argument' not present" // new_line('')
-  end if
+!   if (command_line%argument_present(["--some-argument"])) then
+!      print '(a)', new_line('') // "argument 'some-argument' present" // new_line('')
+!   else
+!      print '(a)', new_line('') // "argument 'some-argument' not present" // new_line('')
+!   end if
 end program
