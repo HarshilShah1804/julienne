@@ -7,20 +7,15 @@ module string_test_m
   use assert_m, only : assert
   use iso_c_binding, only : c_bool
 
-  use julienne_m, only : &
-     test_t &
-    ,test_result_t &
-    ,test_description_t &
-    ,test_description_substring &
-    ,test_diagnosis_t &
-    ,string_t &
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    ,diagnosis_function_i &
-#endif
+  use julienne_test_m, only : test_t, test_description_substring
+  use julienne_test_result_m, only : test_result_t
+  use julienne_string_m, only : &
+     string_t &
     ,operator(.cat.) &
     ,operator(.comma.) &
     ,operator(.sv.)
-
+  use julienne_test_description_m, only : test_description_t
+  use julienne_test_diagnosis_m, only : test_diagnosis_t
   implicit none
 
   private
