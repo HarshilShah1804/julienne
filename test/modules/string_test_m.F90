@@ -182,7 +182,7 @@ contains
       associate(all_allocated => all([scalar_allocated%is_allocated(), array_allocated%is_allocated()]))
         test_diagnosis = test_diagnosis_t( &
            test_passed = not_any_allocated .and. all_allocated &
-          ,diagnostics_string = "expected .true., true.; actual " // string_t(not_any_allocated) // string_t(all_allocated) &
+          ,diagnostics_string = "expected .true., true.; actual " .cat. string_t(not_any_allocated) .cat. string_t(all_allocated) &
         )
       end associate
     end associate
@@ -195,7 +195,7 @@ contains
       associate(key => line%get_json_key())
         test_diagnosis = test_diagnosis_t( &
            test_passed = key == string_t("foo") &
-          ,diagnostics_string = "expected 'foo'; actual " // key%string() &
+          ,diagnostics_string = "expected 'foo'; actual " .cat. key%string() &
         )
       end associate
     end associate
@@ -209,7 +209,7 @@ contains
       associate(json_value => line%get_json_value(key="pi", mold=0.D0))
         test_diagnosis = test_diagnosis_t( &
            test_passed = abs(json_value - 3.141592653589793D0) < tolerance &
-          ,diagnostics_string = "expected 3.141592653589793D0, actual " // string_t(json_value) &
+          ,diagnostics_string = "expected 3.141592653589793D0, actual " .cat. string_t(json_value) &
         )
       end associate
     end associate
@@ -224,7 +224,7 @@ contains
       associate(json_value => line%get_json_value(key=string_t("pi"), mold=1.))
         test_diagnosis = test_diagnosis_t( &
            test_passed = json_value == 3.14159 &
-          ,diagnostics_string = "expected 3.14159, actual " // string_t(json_value) &
+          ,diagnostics_string = "expected 3.14159, actual " .cat. string_t(json_value) &
         )
       end associate
     end associate
@@ -242,7 +242,7 @@ contains
       ])
         test_diagnosis = test_diagnosis_t( &
            test_passed = all(json_values == "bar") &
-          ,diagnostics_string = "expected bar; actual " // .csv. json_values &
+          ,diagnostics_string = "expected bar; actual " .cat. .csv. json_values &
         )
       end associate
     end associate
@@ -255,7 +255,7 @@ contains
       associate(json_value => line%get_json_value(key=string_t("foo"), mold=string_t("")))
         test_diagnosis = test_diagnosis_t( &
           test_passed =  json_value == "bar", &
-          diagnostics_string = "expected 'bar', actual " // json_value &
+          diagnostics_string = "expected 'bar', actual " .cat. json_value &
         )
       end associate
     end associate
@@ -269,7 +269,7 @@ contains
       associate(json_value => line%get_json_value(key=string_t("an integer"), mold=0))
         test_diagnosis = test_diagnosis_t( &
            test_passed = json_value == 99 &
-          ,diagnostics_string = "expected 99, actual " // string_t(json_value) &
+          ,diagnostics_string = "expected 99, actual " .cat. string_t(json_value) &
         )
       end associate
     end associate
@@ -290,7 +290,7 @@ contains
       )
         test_diagnosis = test_diagnosis_t( &
            test_passed = all([true, true_too, .not. false]) &
-          ,diagnostics_string = "expected T,T,T; actual  " // .csv. string_t([true, true_too, .not. false]) &
+          ,diagnostics_string = "expected T,T,T; actual  " .cat. .csv. string_t([true, true_too, .not. false]) &
         )
       end associate
     end associate
@@ -304,7 +304,7 @@ contains
         associate(expected_value => [string_t("stevie"), string_t("ray"), string_t("vaughn")])
           test_diagnosis = test_diagnosis_t( &
              test_passed = all(string_array == expected_value) &
-            ,diagnostics_string = "expected " // .csv. expected_value //"; actual " //.csv. string_array &
+            ,diagnostics_string = "expected " .cat. .csv. expected_value .cat."; actual " .cat..csv. string_array &
           )
         end associate
       end associate
@@ -318,7 +318,7 @@ contains
       associate(integer_array => key_integer_array_pair%get_json_value(key=string_t("some key"), mold=[integer::]))
         test_diagnosis = test_diagnosis_t( &
            test_passed = all(integer_array == [1, 2, 3]) &
-          ,diagnostics_string = "expected 1,2,3; actual " // .csv. string_t(integer_array) &
+          ,diagnostics_string = "expected 1,2,3; actual " .cat. .csv. string_t(integer_array) &
         )
       end associate
     end associate
@@ -332,7 +332,7 @@ contains
       associate(real_array => key_real_array_pair%get_json_value(key=string_t("a key"), mold=[real::]))
         test_diagnosis = test_diagnosis_t( &
            test_passed = all(abs(real_array - [1., 2., 4.]) < tolerance) &
-          ,diagnostics_string = "expected 1,2,3; actual " // .csv. string_t(real_array) &
+          ,diagnostics_string = "expected 1,2,3; actual " .cat. .csv. string_t(real_array) &
         )
       end associate
     end associate
@@ -346,7 +346,7 @@ contains
       associate(dp_array => key_dp_array_pair%get_json_value(key=string_t("a key"), mold=[double precision::]))
         test_diagnosis = test_diagnosis_t( &
            test_passed = all(abs(dp_array - [1D0, 2D0, 4D0]) < tolerance) &
-          ,diagnostics_string = "expected 1.,2.,3.; actual " // .csv. string_t(dp_array) &
+          ,diagnostics_string = "expected 1.,2.,3.; actual " .cat. .csv. string_t(dp_array) &
         )
       end associate
     end associate
@@ -361,7 +361,7 @@ contains
                               ,         "123.456"  == string_t("123"    )])
       test_diagnosis = test_diagnosis_t( &
          test_passed = all(comparisons .eqv. [.true.,.true.,.true.,.false.]) &
-        ,diagnostics_string = "expected T,T,T,F; actual " // .csv. string_t([comparisons(1:3), .not. comparisons(4)]) &
+        ,diagnostics_string = "expected T,T,T,F; actual " .cat. .csv. string_t([comparisons(1:3), .not. comparisons(4)]) &
       )
     end associate
   end function
@@ -375,7 +375,7 @@ contains
                                         ,         "123.456"  /= string_t("123.456")])
       test_diagnosis = test_diagnosis_t( &
          test_passed = all(non_equivalent_strings .eqv. [.true.,.true.,.true.,.false.]) &
-        ,diagnostics_string = "expected T,T,T,F; actual " // .csv. string_t(non_equivalent_strings) &
+        ,diagnostics_string = "expected T,T,T,F; actual " .cat. .csv. string_t(non_equivalent_strings) &
       )
     end associate
   end function
@@ -388,7 +388,7 @@ contains
       lhs = rhs
       test_diagnosis = test_diagnosis_t( &
          test_passed = lhs == rhs &
-        ,diagnostics_string = "expected lhs == rhs; actual lhs = " // lhs // ", rhs = " // rhs &
+        ,diagnostics_string = "expected lhs == rhs; actual lhs = " .cat. lhs .cat. ", rhs = " .cat. rhs &
       )
     end associate
   end function
@@ -401,7 +401,7 @@ contains
     lhs = rhs
     test_diagnosis = test_diagnosis_t( &
        test_passed = lhs == rhs &
-      ,diagnostics_string = "expected lhs == rhs; actual lhs = " // lhs // ", rhs = " // rhs &
+      ,diagnostics_string = "expected lhs == rhs; actual lhs = " .cat. lhs .cat. ", rhs = " .cat. rhs &
     )
   end function
 
@@ -410,10 +410,10 @@ contains
     character(len=*), parameter :: prefix = "foo", postfix="bar", expected = "foo yada yada bar"
 
     associate(infix => string_t(" yada yada "))
-      associate(string_string_string => prefix // infix // postfix, string_character_string => prefix // infix%string() // postfix)
+      associate(string_string_string => prefix .cat. infix .cat. postfix, string_character_string => prefix .cat. infix%string() .cat. postfix)
         test_diagnosis = test_diagnosis_t( &
            test_passed = all([string_string_string == expected, string_character_string == expected]) &
-          ,diagnostics_string = "expected '"// expected // "', actual " // string_string_string // "," // string_character_string &
+          ,diagnostics_string = "expected '".cat. expected .cat. "', actual " .cat. string_string_string .cat. "," .cat. string_character_string &
         )
       end associate
     end associate
@@ -426,7 +426,7 @@ contains
     associate(string => string_t(expected_value))
       test_diagnosis = test_diagnosis_t( &
          test_passed = adjustl(trim(string%string())) == "1234567890" &
-        ,diagnostics_string = "expected '"// string_t(expected_value) // "', actual " // string%string() &
+        ,diagnostics_string = "expected '".cat. string_t(expected_value) .cat. "', actual " .cat. string%string() &
       )
     end associate
   end function
@@ -442,7 +442,7 @@ contains
       read(character_representation, *) read_value
       test_diagnosis = test_diagnosis_t( &
          test_passed = read_value == real_value &
-        ,diagnostics_string = "expected '"// string_t(real_value) // "', actual " // string_t(read_value) &
+        ,diagnostics_string = "expected '".cat. string_t(real_value) .cat. "', actual " .cat. string_t(read_value) &
       )
     end associate
   end function
@@ -458,7 +458,7 @@ contains
       read(character_representation, *) read_value
       test_diagnosis = test_diagnosis_t( &
          test_passed = read_value == double_precision_value &
-        ,diagnostics_string = "expected '"// string_t(double_precision_value) // "', actual " // string_t(read_value) &
+        ,diagnostics_string = "expected '".cat. string_t(double_precision_value) .cat. "', actual " .cat. string_t(read_value) &
       )
     end associate
   end function
@@ -476,7 +476,7 @@ contains
       read(character_representation, *) read_value
       test_diagnosis = test_diagnosis_t( &
          test_passed = abs(read_value - z) < tolerance &
-        ,diagnostics_string = "expected '"// string_t(z) // "', actual " // string_t(read_value) &
+        ,diagnostics_string = "expected '".cat. string_t(z) .cat. "', actual " .cat. string_t(read_value) &
       )
     end associate
   end function
@@ -494,7 +494,7 @@ contains
       read(character_representation, *) read_value
       test_diagnosis = test_diagnosis_t( &
          test_passed = abs(read_value - z) < tolerance &
-        ,diagnostics_string = "expected '"// string_t(z) // "', actual " // string_t(read_value) &
+        ,diagnostics_string = "expected '".cat. string_t(z) .cat. "', actual " .cat. string_t(read_value) &
       )
     end associate
   end function
@@ -505,7 +505,7 @@ contains
     associate(true => string_t(.true.), false => string_t(.false.))
       test_diagnosis = test_diagnosis_t( &
          test_passed = all([true%string() == "T", false%string() == "F"]) &
-        ,diagnostics_string = "expected T, F; actual '"// true%string() // ", " // false%string() &
+        ,diagnostics_string = "expected T, F; actual '".cat. true%string() .cat. ", " .cat. false%string() &
       )
     end associate
   end function
@@ -516,7 +516,7 @@ contains
     associate(true => string_t(.true._c_bool), false => string_t(.false._c_bool))
       test_diagnosis = test_diagnosis_t( &
          test_passed = true%string() == "T" .and. false%string() == "F" &
-        ,diagnostics_string = "expected T, F; actual '"// true%string() // ", " // false%string() &
+        ,diagnostics_string = "expected T, F; actual '".cat. true%string() .cat. ", " .cat. false%string() &
       )
     end associate
   end function
@@ -529,7 +529,7 @@ contains
       associate(base_name => string%base_name())
         test_diagnosis = test_diagnosis_t( &
            test_passed = base_name == expected &
-          ,diagnostics_string = "expected "// expected // ", actual " // base_name &
+          ,diagnostics_string = "expected ".cat. expected .cat. ", actual " .cat. base_name &
         )
       end associate
     end associate
@@ -543,7 +543,7 @@ contains
       associate(file_extension => string%file_extension())
         test_diagnosis = test_diagnosis_t( &
            test_passed = file_extension == expected &
-          ,diagnostics_string = "expected "// expected // ", actual " // file_extension&
+          ,diagnostics_string = "expected ".cat. expected .cat. ", actual " .cat. file_extension&
         )
       end associate
     end associate
@@ -556,7 +556,7 @@ contains
     associate(cat_foo_bar => .cat. [string_t("foo"), string_t("bar")])
       test_diagnosis = test_diagnosis_t( &
          test_passed = cat_foo_bar == expected &
-        ,diagnostics_string = "expected "// expected // ", actual " // cat_foo_bar &
+        ,diagnostics_string = "expected ".cat. expected .cat. ", actual " .cat. cat_foo_bar &
       )
     end associate
   end function
