@@ -5,14 +5,21 @@
 
 module test_description_test_m
   !! Verify test_description_t object behavior
-  use julienne_m, only : &
-     diagnosis_function_i &
-    ,string_t &
-    ,test_result_t &
-    ,test_description_t &
-    ,test_description_substring &
-    ,test_diagnosis_t &
-    ,test_t
+  ! use julienne_m, only : &
+  !    diagnosis_function_i &
+  !   ,string_t &
+  !   ,test_result_t &
+  !   ,test_description_t &
+  !   ,test_description_substring &
+  !   ,test_diagnosis_t &
+  !   ,test_t
+  
+  use julienne_test_description_m, only: test_description_t, diagnosis_function_i
+  use julienne_string_m, only: string_t
+  use julienne_test_result_m, only: test_result_t
+  use julienne_test_m, only: test_t, test_description_substring
+  use julienne_test_diagnosis_m, only: test_diagnosis_t
+
   implicit none
 
   private
