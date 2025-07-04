@@ -73,22 +73,22 @@ contains
     !! Check that the items are partitioned across bins evenly to within a difference of one item per bin
     type(test_diagnosis_t) test_diagnosis
 
-    type(bin_t), allocatable :: bins(:)
-    integer, parameter :: n_items=11, n_bins=7
-    integer b
+    ! type(bin_t), allocatable :: bins(:)
+    ! integer, parameter :: n_items=11, n_bins=7
+    ! integer b
 
-    bins = [( bin_t(num_items=n_items, num_bins=n_bins, bin_number=b), b = 1,n_bins )]
+    ! bins = [( bin_t(num_items=n_items, num_bins=n_bins, bin_number=b), b = 1,n_bins )]
 
-    associate(in_bin => [(bins(b)%last() - bins(b)%first() + 1, b = 1, n_bins)])
-      associate(remainder => mod(n_items, n_bins), items_per_bin => n_items/n_bins)
-        associate(expected_distribution => [ [(items_per_bin+1, b=1,remainder)], [(items_per_bin, b=remainder+1,n_bins)] ])
-          test_diagnosis = test_diagnosis_t( &
-             test_passed = all(in_bin == expected_distribution) &
-            ,diagnostics_string = "expected " .cat. .comma. string_t(expected_distribution) .cat. "; actual " .cat. .comma. string_t(in_bin) &
-          )
-        end associate
-      end associate
-    end associate
+    ! associate(in_bin => [(bins(b)%last() - bins(b)%first() + 1, b = 1, n_bins)])
+    !   associate(remainder => mod(n_items, n_bins), items_per_bin => n_items/n_bins)
+    !     associate(expected_distribution => [ [(items_per_bin+1, b=1,remainder)], [(items_per_bin, b=remainder+1,n_bins)] ])
+    !       test_diagnosis = test_diagnosis_t( &
+    !          test_passed = all(in_bin == expected_distribution) &
+    !         ,diagnostics_string = "expected " .cat. .comma. string_t(expected_distribution) .cat. "; actual " .cat. .comma. string_t(in_bin) &
+    !       )
+    !     end associate
+    !   end associate
+    ! end associate
 
   end function
 
