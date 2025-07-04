@@ -4,20 +4,28 @@
 #include "language-support.F90"
 
 module bin_test_m
-  !! Check data partitioning across bins
-  use julienne_m, only : &
-     bin_t &
-    ,operator(.comma.) &
-    ,string_t &
-    ,test_description_t &
-    ,test_description_substring &
-    ,test_diagnosis_t &
-    ,test_result_t &
-    ,test_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
+!   !! Check data partitioning across bins
+!   use julienne_m, only : &
+!      bin_t &
+!     ,operator(.comma.) &
+!     ,string_t &
+!     ,test_description_t &
+!     ,test_description_substring &
+!     ,test_diagnosis_t &
+!     ,test_result_t &
+!     ,test_t
+! #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+!   use julienne_m, only : diagnosis_function_i
+! #endif
+
   use assert_m, only : assert
+  use julienne_bin_m, only: bin_t
+  use julienne_string_m, only: string_t, operator(.comma.), operator(.cat.)
+  use julienne_test_description_m, only: test_description_t
+  use julienne_test_diagnosis_m, only: test_diagnosis_t
+  use julienne_test_result_m, only: test_result_t
+  use julienne_test_m, only: test_t, test_description_substring
+
   implicit none
 
   private
@@ -76,7 +84,7 @@ contains
         associate(expected_distribution => [ [(items_per_bin+1, b=1,remainder)], [(items_per_bin, b=remainder+1,n_bins)] ])
           test_diagnosis = test_diagnosis_t( &
              test_passed = all(in_bin == expected_distribution) &
-            ,diagnostics_string = "expected " // .csv. string_t(expected_distribution) // "; actual " // .csv. string_t(in_bin) &
+            ,diagnostics_string = "expected " .cat. .comma. string_t(expected_distribution) .cat. "; actual " .cat. .comma. string_t(in_bin) &
           )
         end associate
       end associate
@@ -97,7 +105,7 @@ contains
     associate(items_in_bins => sum([(bins(b)%last() - bins(b)%first() + 1, b = 1, n_bins)]))
       test_diagnosis = test_diagnosis_t( &
          test_passed = items_in_bins == n_items &
-        ,diagnostics_string = "expected " // string_t(n_items) // ", actual " // string_t(items_in_bins) &
+        ,diagnostics_string = "expected " .cat. string_t(n_items) .cat. ", actual " .cat. string_t(items_in_bins) &
       )
     end associate
   end function
