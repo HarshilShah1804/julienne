@@ -7,7 +7,9 @@ program main
   !! Julienne unit tests driver
 
   ! Internal utilities
-  use julienne_m                     ,only : command_line_t, GitHub_CI
+  ! use julienne_m                     ,only : command_line_t, GitHub_CI
+  use julienne_command_line_m, only : command_line_t
+  use julienne_github_ci_m, only : github_ci
 
   ! Test modules
   use assert_test_m                  ,only :                  assert_test_t
@@ -68,17 +70,9 @@ program main
     end if
   end if
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-  if (this_image()==1) then
-#endif
+  print *
+  print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass.  ", skips, " tests were skipped. _________"
 
-    print *
-    print '(*(a,:,g0))', "_________ In total, ",passes," of ",tests, " tests pass.  ", skips, " tests were skipped. _________"
-
-    if (passes + skips /= tests) error stop "Some executed tests failed."
-
-#if HAVE_MULTI_IMAGE_SUPPORT
-  end if
-#endif
+  if (passes + skips /= tests) error stop "Some executed tests failed."
 
 end program
