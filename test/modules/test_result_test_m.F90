@@ -5,16 +5,22 @@
 
 module test_result_test_m
   !! Verify test_result_t object behavior
-  use julienne_m, only : &
-     string_t &
-    ,test_description_substring &
-    ,test_description_t &
-    ,test_diagnosis_t &
-    ,test_result_t &
-    ,test_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
+!   use julienne_m, only : &
+!      string_t &
+!     ,test_description_substring &
+!     ,test_description_t &
+!     ,test_diagnosis_t &
+!     ,test_result_t &
+!     ,test_t
+! #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+!   use julienne_m, only : diagnosis_function_i
+! #endif
+
+  use julienne_string_m, only: string_t, operator(.cat.)
+  use julienne_test_description_m, only: test_description_t
+  use julienne_test_diagnosis_m, only: test_diagnosis_t
+  use julienne_test_result_m, only: test_result_t
+  use julienne_test_m, only: test_t, test_description_substring
   implicit none
 
   private
@@ -66,7 +72,7 @@ contains
       associate(num_results => size(two_test_results))
         test_diagnosis = test_diagnosis_t( &
            test_passed = num_results == 2 &
-          ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
+          ,diagnostics_string = "expected 2, actual " .cat. string_t(num_results) &
         )
       end associate
     end associate
@@ -81,7 +87,7 @@ contains
 
       test_diagnosis = test_diagnosis_t( &
          test_passed = num_results == 2 &
-        ,diagnostics_string = "expected 2, actual " // string_t(num_results) &
+        ,diagnostics_string = "expected 2, actual " .cat. string_t(num_results) &
       )
     end block
 #endif
@@ -94,19 +100,11 @@ contains
     type(test_result_t) test_result
     type(test_diagnosis_t) test_diagnosis
 
-#if HAVE_MULTI_IMAGE_SUPPORT
-    if (this_image()==1) then
-#endif
-      test_result = test_result_t(description="image 1 fails", diagnosis=test_diagnosis_t(.false.,""))
-#if HAVE_MULTI_IMAGE_SUPPORT
-    else
-      test_result = test_result_t(description="all images other than 1 pass", diagnosis=test_diagnosis_t(.true.,""))
-    end if
-#endif
+    test_result = test_result_t(description="image 1 fails", diagnosis=test_diagnosis_t(.false.,""))
     associate(test_passed => test_result%passed())
       test_diagnosis = test_diagnosis_t( &
          test_passed = .not. test_passed &
-        ,diagnostics_string = "expected .false., actual " // string_t(test_passed) &
+        ,diagnostics_string = "expected .false., actual " .cat. string_t(test_passed) &
       )
    end associate
   end function
