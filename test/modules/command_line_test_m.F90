@@ -5,17 +5,25 @@
 
 module command_line_test_m
   !! Verify object pattern asbtract parent
-  use julienne_m, only : &
-     command_line_t &
-    ,string_t &
-    ,test_description_substring &
-    ,test_description_t &
-    ,test_diagnosis_t &
-    ,test_result_t &
-    ,test_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-  use julienne_m, only : diagnosis_function_i
-#endif
+!   use julienne_m, only : &
+!      command_line_t &
+!     ,string_t &
+!     ,test_description_substring &
+!     ,test_description_t &
+!     ,test_diagnosis_t &
+!     ,test_result_t &
+!     ,test_t
+! #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+!   use julienne_m, only : diagnosis_function_i
+! #endif
+
+  use julienne_command_line_m, only: command_line_t
+  use julienne_string_m, only: string_t
+  use julienne_test_m, only: test_t, test_description_substring, test_t
+  use julienne_test_description_m, only: test_description_t
+  use julienne_test_diagnosis_m, only: test_diagnosis_t
+  use julienne_test_result_m, only: test_result_t
+  
 
   implicit none
 
