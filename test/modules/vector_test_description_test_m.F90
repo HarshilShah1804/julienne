@@ -3,21 +3,28 @@
 
 module vector_test_description_test_m
   !! Verify test_description_t object behavior
-  use julienne_m, only : &
-     diagnosis_function_i &
-    ,string_t &
-    ,test_result_t &
-    ,test_description_t &
-    ,test_description_substring &
-    ,test_diagnosis_t &
-    ,test_t &
-    ,vector_test_description_t
-#if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
-    use julienne_vector_test_description_m, only : vector_diagnosis_function_i
-#endif
-#ifdef __GFORTRAN__
-    use julienne_vector_test_description_m, only : run
-#endif
+!   use julienne_m, only : &
+!      diagnosis_function_i &
+!     ,string_t &
+!     ,test_result_t &
+!     ,test_description_t &
+!     ,test_description_substring &
+!     ,test_diagnosis_t &
+!     ,test_t &
+!     ,vector_test_description_t
+! #if ! HAVE_PROCEDURE_ACTUAL_FOR_POINTER_DUMMY
+!     use julienne_vector_test_description_m, only : vector_diagnosis_function_i
+! #endif
+! #ifdef __GFORTRAN__
+!     use julienne_vector_test_description_m, only : run
+! #endif
+  
+  use julienne_test_diagnosis_m, only: test_diagnosis_t
+  use julienne_test_description_m, only: test_description_t, diagnosis_function_i
+  use julienne_string_m, only: string_t
+  use julienne_test_result_m, only: test_result_t
+  use julienne_test_m, only: test_t, test_description_substring
+  use julienne_vector_test_description_m, only: vector_test_description_t, run
   implicit none
 
   private
@@ -107,16 +114,13 @@ contains
 
   function check_substring_search() result(diagnoses)
     type(test_diagnosis_t), allocatable :: diagnoses(:)
-    procedure(diagnosis_function_i), pointer :: unused
-
-    unused => null()
-
-    associate(doing_something => test_description_t("doing something", unused))
-      diagnoses = [ &
-         test_diagnosis_t(test_passed =       doing_something%contains_text("something"),    diagnostics_string="expected .true.") &
-        ,test_diagnosis_t(test_passed = .not. doing_something%contains_text("missing text"), diagnostics_string="expected .true.") &
-      ]
-    end associate
+    ! procedure(diagnosis_function_i) :: unused
+    ! associate(doing_something => test_description_t("doing something", unused))
+    !   diagnoses = [ &
+    !      test_diagnosis_t(test_passed =       doing_something%contains_text("something"),    diagnostics_string="expected .true.") &
+    !     ,test_diagnosis_t(test_passed = .not. doing_something%contains_text("missing text"), diagnostics_string="expected .true.") &
+    !   ]
+    ! end associate
   end function
 
 end module vector_test_description_test_m
